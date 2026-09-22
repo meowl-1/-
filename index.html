@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I'm So Sorry, My Love ❤️</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti Library -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Tone.js for Sound Effects -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Dancing Script, Amiri for Arabic, Nunito) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #fff0f5 0%, #ffe4e1 40%, #ffd1dc 70%, #fbcfe8 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .font-cursive {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        .font-arabic {
+            font-family: 'Amiri', serif;
+        }
+
+        /* Glassmorphism Styling */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 50px rgba(235, 110, 142, 0.2);
+        }
+
+        .glass-arabic-box {
+            background: linear-gradient(135deg, rgba(255, 241, 242, 0.95), rgba(255, 228, 230, 0.85));
+            border: 1px solid rgba(244, 114, 182, 0.3);
+            box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.8), 0 8px 20px rgba(225, 29, 72, 0.08);
+        }
+
+        /* Floating Rose Petals & Hearts Animation */
+        .floating-element {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+            will-change: transform, opacity;
+            animation: floatUp 9s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(105vh) rotate(0deg) scale(0.8);
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(-10vh) rotate(360deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* Pulse Animations */
+        .pulse-heart {
+            animation: heartPulse 1.4s infinite cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+
+        @keyframes heartPulse {
+            0% { transform: scale(1); }
+            15% { transform: scale(1.25); }
+            25% { transform: scale(1.05); }
+            38% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        /* Glowing Yes Button */
+        .glow-yes {
+            box-shadow: 0 0 25px rgba(244, 114, 182, 0.7);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .glow-yes:hover {
+            box-shadow: 0 0 35px rgba(244, 114, 182, 1);
+            transform: translateY(-3px) scale(1.04);
+        }
+
+        /* Smooth Teleport Transition for Runaway Button */
+        #no-btn {
+            transition: top 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+                        left 0.22s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            will-change: top, left;
+        }
+    </style>
+</head>
+<body class="relative flex items-center justify-center min-h-screen p-4 sm:p-6 text-gray-800">
+
+    <!-- Background Canvas Container for Petals/Hearts -->
+    <div id="floating-container" class="fixed inset-0 pointer-events-none z-0 overflow-hidden"></div>
+
+    <!-- Top Floating Sound Toggle Button -->
+    <button id="sound-toggle" onclick="toggleAudioPermission()" 
+            class="fixed top-4 right-4 z-50 bg-white/80 backdrop-blur-md hover:bg-white text-rose-500 p-3 rounded-full shadow-md border border-rose-200 transition duration-300 flex items-center justify-center gap-2 text-xs font-bold">
+        <i id="sound-icon" class="fa-solid fa-volume-high"></i>
+        <span id="sound-label" class="hidden sm:inline">Sound On</span>
+    </button>
+
+    <main class="relative z-10 w-full max-w-xl glass-card rounded-3xl p-6 sm:p-10 text-center my-auto transition-all duration-500">
+        
+        <!-- INITIAL APOLOGY CONTENT -->
+        <div id="apology-content" class="space-y-6">
+            
+            <!-- Animated Header Icon -->
+            <div class="relative inline-block">
+                <div class="w-24 h-24 sm:w-28 sm:h-28 mx-auto bg-gradient-to-tr from-rose-200 via-pink-100 to-rose-300 rounded-full flex items-center justify-center shadow-inner border-2 border-white">
+                    <i class="fa-solid fa-heart pulse-heart text-5xl sm:text-6xl text-rose-500"></i>
+                </div>
+                <span class="absolute -top-1 -right-1 text-3xl animate-bounce">🥺</span>
+            </div>
+
+            <!-- Title -->
+            <div>
+                <h1 class="font-cursive text-4xl sm:text-5xl font-bold text-rose-600 mb-1">
+                    I'm So Sorry, My Love ❤️
+                </h1>
+                <p class="text-rose-400 font-semibold text-xs sm:text-sm tracking-wider uppercase">
+                    You mean everything to me
+                </p>
+            </div>
+
+            <!-- English Letter Message -->
+            <div class="bg-white/70 rounded-2xl p-4 sm:p-5 text-gray-700 text-sm sm:text-base leading-relaxed text-left border border-rose-100 shadow-sm space-y-3">
+                <p class="font-semibold text-rose-500">My Sweetest,</p>
+                <p>
+                    I know I messed up, and I hate knowing that I brought sadness or disappointment into your heart. You deserve nothing but warmth, endless smiles, and tender love every single day.
+                </p>
+                <p>
+                    I am truly sorry for my mistakes. I value what we have more than words can say, and I'll do whatever it takes to make things right.
+                </p>
+            </div>
+
+            <!-- Prominent Arabic Text Box -->
+            <div class="glass-arabic-box rounded-2xl p-5 border border-rose-300/50 shadow-md">
+                <p class="font-arabic text-xl sm:text-2xl text-rose-700 leading-loose font-bold text-center" dir="rtl">
+                    "ولو فضلتي زعلانه انا هحاول تالت ورابع وعاشر لحد ما تسامحيني عشان انتي تستاهلي ان انا احاول عشانك"
+                </p>
+            </div>
+
+            <!-- Question Prompt -->
+            <div class="pt-2">
+                <h2 class="font-cursive text-2xl sm:text-3xl text-gray-800 font-bold">
+                    Will you forgive me? 💕
+                </h2>
+                <p id="hint-text" class="text-xs text-rose-400 mt-1 h-4 italic transition-opacity opacity-0">
+                    (Hint: The "No" button seems a bit shy! 😉)
+                </p>
+            </div>
+
+            <!-- Interactive Buttons Zone -->
+            <div class="relative pt-2 pb-6 flex flex-col sm:flex-row items-center justify-center gap-4 min-h-[90px]" id="button-zone">
+                <!-- YES BUTTON -->
+                <button id="yes-btn" onclick="acceptApology()" 
+                        class="glow-yes px-8 py-3.5 bg-gradient-to-r from-rose-500 via-pink-500 to-rose-600 hover:from-rose-600 hover:to-pink-600 text-white font-extrabold text-lg rounded-full shadow-lg transform active:scale-95 transition flex items-center gap-2 z-20 w-full sm:w-auto justify-center">
+                    <i class="fa-solid fa-heart-circle-check"></i> Yes, I forgive you ❤️
+                </button>
+
+                <!-- RUNAWAY NO BUTTON -->
+                <button id="no-btn"
+                        class="px-8 py-3.5 bg-gray-200 hover:bg-gray-300 text-gray-600 font-bold text-lg rounded-full shadow transition-all duration-200 z-30 w-full sm:w-auto sm:static">
+                    No 💔
+                </button>
+            </div>
+        </div>
+
+        <!-- CELEBRATION SUCCESS STATE (Initially Hidden) -->
+        <div id="success-content" class="hidden space-y-6 py-4">
+            <div class="w-28 h-28 mx-auto bg-gradient-to-tr from-pink-300 to-rose-300 rounded-full flex items-center justify-center shadow-xl border-4 border-white transform hover:scale-110 transition duration-300">
+                <i class="fa-solid fa-face-kiss-wink-heart text-6xl text-rose-500 animate-bounce"></i>
+            </div>
+
+            <h1 class="font-cursive text-4xl sm:text-5xl font-bold text-rose-600">
+                Thank You, My Angel! 🎉
+            </h1>
+
+            <div class="bg-white/80 rounded-2xl p-6 text-gray-700 text-base sm:text-lg leading-relaxed border border-pink-200 shadow-sm space-y-4">
+                <p class="font-bold text-rose-600 text-xl">
+                    You made my world whole again! I love you! 💕
+                </p>
+                <p>
+                    I promise to always hold your heart with care, listen better, and treasure every moment with you.
+                </p>
+                <p class="text-sm font-arabic font-bold text-rose-500 pt-2" dir="rtl">
+                    بحبك جداً ومش هسيبك تزعلي أبداً تاني ❤️
+                </p>
+            </div>
+
+            <button onclick="resetView()" class="mt-4 px-6 py-2.5 bg-rose-100 text-rose-600 hover:bg-rose-200 font-bold text-sm rounded-full transition duration-300">
+                <i class="fa-solid fa-rotate-left mr-1"></i> Read Letter Again
+            </button>
+        </div>
+    </main>
+
+    <script>
+        // --- 1. Sound Synthesis via Tone.js ---
+        let audioEnabled = true;
+
+        function playHappyChime() {
+            if (!audioEnabled) return;
+            try {
+                const synth = new Tone.PolySynth(Tone.Synth).toDestination();
+                synth.volume.value = -6;
+                const now = Tone.now();
+                synth.triggerAttackRelease(["C5", "E5", "G5", "C6"], "8n", now);
+                synth.triggerAttackRelease(["E5", "G5", "B5", "E6"], "4n", now + 0.25);
+            } catch (e) {
+                console.log("Audio play blocked or unavailable.");
+            }
+        }
+
+        function playEvasivePop() {
+            if (!audioEnabled) return;
+            try {
+                const synth = new Tone.MembraneSynth().toDestination();
+                synth.volume.value = -12;
+                synth.triggerAttackRelease("G4", "16n");
+            } catch (e) {
+                console.log("Audio play blocked.");
+            }
+        }
+
+        function toggleAudioPermission() {
+            audioEnabled = !audioEnabled;
+            const icon = document.getElementById('sound-icon');
+            const label = document.getElementById('sound-label');
+            if (audioEnabled) {
+                icon.className = "fa-solid fa-volume-high";
+                label.innerText = "Sound On";
+            } else {
+                icon.className = "fa-solid fa-volume-xmark";
+                label.innerText = "Muted";
+            }
+        }
+
+        // --- 2. Floating Heart & Rose Petal Generator ---
+        function createFloatingElements() {
+            const container = document.getElementById('floating-container');
+            const symbols = ['🌸', '❤️', '🌹', '✨', '💕', '🌺'];
+            const count = 20;
+
+            for (let i = 0; i < count; i++) {
+                const el = document.createElement('div');
+                el.classList.add('floating-element');
+                el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                
+                // Randomize sizing, position & duration
+                const size = Math.random() * 1.2 + 0.8;
+                el.style.fontSize = `${size}rem`;
+                el.style.left = `${Math.random() * 100}%`;
+                el.style.animationDuration = `${Math.random() * 6 + 7}s`;
+                el.style.animationDelay = `${Math.random() * 6}s`;
+
+                container.appendChild(el);
+            }
+        }
+
+        // --- 3. Playfully Evasive "No" Button Mechanics ---
+        const noBtn = document.getElementById('no-btn');
+        const hintText = document.getElementById('hint-text');
+        let moveCount = 0;
+
+        const evasivePhrases = [
+            "Nice try! 😜",
+            "You can't click me! 🚀",
+            "Try again! 🙈",
+            "Give me a chance! 🥺",
+            "Oops, missed me! ✨",
+            "Nope! Click YES ❤️",
+            "Wrong button! 😇"
+        ];
+
+        function runAway() {
+            moveCount++;
+            playEvasivePop();
+            
+            // Unhide hint text on first attempt
+            if (moveCount === 1) {
+                hintText.classList.remove('opacity-0');
+            }
+
+            // Change button label dynamically
+            const randomPhrase = evasivePhrases[Math.floor(Math.random() * evasivePhrases.length)];
+            noBtn.innerText = randomPhrase;
+
+            // Switch to fixed positioning for screen-wide evasion
+            noBtn.style.position = 'fixed';
+
+            // Calculate safe boundaries
+            const btnWidth = noBtn.offsetWidth;
+            const btnHeight = noBtn.offsetHeight;
+            const padding = 24;
+
+            const maxX = window.innerWidth - btnWidth - padding;
+            const maxY = window.innerHeight - btnHeight - padding;
+
+            const newX = Math.max(padding, Math.floor(Math.random() * maxX));
+            const newY = Math.max(padding, Math.floor(Math.random() * maxY));
+
+            noBtn.style.left = `${newX}px`;
+            noBtn.style.top = `${newY}px`;
+        }
+
+        // Evasion triggers on hover and touch
+        noBtn.addEventListener('mouseenter', runAway);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); // Prevents touch press down
+            runAway();
+        });
+
+        // --- 4. Celebration & Acceptance Logic ---
+        function acceptApology() {
+            playHappyChime();
+
+            // Toggle panels
+            document.getElementById('apology-content').classList.add('hidden');
+            document.getElementById('success-content').classList.remove('hidden');
+
+            // Fire multi-stage celebratory confetti explosion
+            fireHeartConfetti();
+        }
+
+        function fireHeartConfetti() {
+            const duration = 3 * 1000;
+            const animationEnd = Date.now() + duration;
+
+            (function frame() {
+                const timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) return;
+
+                confetti({
+                    particleCount: 4,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0, y: 0.7 },
+                    colors: ['#ff758c', '#ff7eb3', '#ffffff', '#e11d48']
+                });
+                confetti({
+                    particleCount: 4,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1, y: 0.7 },
+                    colors: ['#ff758c', '#ff7eb3', '#ffffff', '#e11d48']
+                });
+
+                requestAnimationFrame(frame);
+            }());
+        }
+
+        // --- 5. Reset View Helper ---
+        function resetView() {
+            noBtn.style.position = 'static';
+            noBtn.innerText = "No 💔";
+            moveCount = 0;
+            hintText.classList.add('opacity-0');
+
+            document.getElementById('success-content').classList.add('hidden');
+            document.getElementById('apology-content').classList.remove('hidden');
+        }
+
+        // Start ambient elements on window load
+        window.onload = function() {
+            createFloatingElements();
+        };
+    </script>
+</body>
+</html>
